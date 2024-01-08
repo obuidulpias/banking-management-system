@@ -168,6 +168,24 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="{{ url('admin/user/list') }}"
+                            class="nav-link @if (Request::segment(2) == 'user') active @endif">
+                            <i class="nav-icon far fa-user"></i>
+                            <p>
+                                User Amount
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url('admin/affiliates/amount') }}"
+                            class="nav-link @if (Request::segment(2) == 'affiliates') active @endif">
+                            <i class="nav-icon far fa-user"></i>
+                            <p>
+                                All Affiliate Amount
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="{{ url('admin/logout') }}" class="nav-link">
                             <i class="nav-icon far fa-user"></i>
                             <p>

@@ -48,6 +48,23 @@ class Affiliate extends Authenticatable
         return self::find($id);
     }
 
+    static function getAllAffiliate(){
+        $return = self::select('affiliates.*');
+                    if(!empty(Request::get('name'))){
+                        $return = $return->where('name', 'like', '%'.Request::get('name').'%');
+                    }
+                    if(!empty(Request::get('email'))){
+                        $return = $return->where('email', 'like', '%'.Request::get('email').'%');
+                    }
+                    if(!empty(Request::get('date'))){
+                        $return = $return->whereDate('created_at', '=', Request::get('date'));
+                    }
+
+        $return  = $return->orderBy('id', 'desc')
+                    ->paginate(20);
+        return $return;
+    }
+ 
     static function getAll(){
         $return = self::select('affiliates.*')
                     ->where('affiliate_type','1');

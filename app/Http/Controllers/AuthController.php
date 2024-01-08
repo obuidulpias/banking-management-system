@@ -89,9 +89,7 @@ class AuthController extends Controller
         $user_id = Auth::guard('web')->user()->id;
         $user_amount = Auth::guard('web')->user()->amount;
         $affiliates_id = Auth::guard('web')->user()->affiliates_id;
-        // if($affiliates_id != ""){
-
-        // }
+        
 
         $user = new Transaction;
         $user->amount           = $request->amount;
@@ -103,6 +101,35 @@ class AuthController extends Controller
        ->update([
            'amount' => $request->amount+$user_amount
         ]);
+
+        //commissions part here
+        if($affiliates_id != ""){
+            $affiliate_arr = Affiliate::getSingle($affiliates_id);
+            if($affiliate_arr->affiliate_type == 1){
+                $commition_affiliate1=round($request->amount*30/100,2);
+                //dd($commition);
+                Affiliate::where('id', $affiliates_id)
+                    ->update([
+                        'amount' => $affiliate_arr->amount+$commition_affiliate1
+                        ]);
+            }
+            if($affiliate_arr->affiliate_type == 2){
+                $commition_affiliate1=round($request->amount*20/100,2);
+                //dd($commition);
+                Affiliate::where('id', $affiliates_id)
+                    ->update([
+                        'amount' => $affiliate_arr->amount+$commition_affiliate1
+                        ]);
+                $commition_affiliate2=round($request->amount*10/100,2);
+                        //dd($commition);
+                $parent_affiliateID=$affiliate_arr->created_by;
+                $affiliate_arr = Affiliate::getSingle($parent_affiliateID);
+                Affiliate::where('id', $parent_affiliateID)
+                        ->update([
+                            'amount' => $affiliate_arr->amount+$commition_affiliate2
+                        ]);
+            }
+        }
         return redirect('user/transaction/list')->with('success', "Amount added successfully.");
     }
     

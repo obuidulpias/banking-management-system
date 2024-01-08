@@ -93,6 +93,14 @@ class AdminController extends Controller
 
         return redirect('admin/affiliate/list')->with('success', "User updated successfully.");
     }
+    public function userList(){
+        $getRecord['getRecord']=User::getAll();
+        return view('admin.user.list',$getRecord);
+    }
+    public function amount(){
+        $getRecord['getRecord']=Affiliate::getAllAffiliate();
+        return view('admin.affiliate.amount',$getRecord);
+    }
     public function logout(){
         //Auth::logout();
         Auth::guard('admin')->logout();

@@ -45,6 +45,9 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('admin/affiliate/edit/{id}', [AdminController::class, 'edit']);
     Route::post('admin/affiliate/edit/{id}', [AdminController::class, 'update']);
     Route::get('admin/affiliate/delete/{id}', [AdminController::class, 'delete']);
+    Route::get('admin/affiliates/amount', [AdminController::class, 'amount']);
+
+    Route::get('admin/user/list', [AdminController::class, 'userList']);
 
     Route::get('admin/logout', [AdminController::class, 'logout']);
 });
